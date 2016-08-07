@@ -120,6 +120,16 @@ tr.selected td {
     color: #F00;
 }
 
+#tabs li.danger a:hover {
+    color: #FFF;
+    background: #F00;
+    border-color: #B00;
+}
+
+#tabs li.danger a:hover .icon {
+    color: #FCC;
+}
+
 #tabs li.active a {
     margin-top: 0;
     padding-bottom: 6px;
@@ -133,4 +143,14 @@ tr.selected td {
 #tabs a:hover .icon,
 #tabs li.active .icon {
     color: #555;
+}
+
+#query fieldset {
+    background: #E5E5E5;
+    border: 1px solid #000;
+}
+
+#query legend {
+    color: #444;
+    font-weight: bold;
 }

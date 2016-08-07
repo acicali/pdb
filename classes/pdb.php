@@ -8,19 +8,16 @@ class Pdb
     public function __construct($configs = null){
 
         $this->getInstance($configs);
-
         $params = Params::get();
+        $this->schema['databases'] = $this->__databases($configs);
 
-        if(empty($params)){
-            $this->schema['databases'] = $this->__databases($configs);
-        }
         // process query strings
         array_walk($params, array($this, 'processGetVar'));
 
         $this->view['schema'] = $this->schema;
         $this->view['host'] = $configs['host'];
 
-        View::show('index', $this->view);
+        View::render('index', $this->view);
     }
 
     private function getInstance($configs){

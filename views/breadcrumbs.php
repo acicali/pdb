@@ -5,7 +5,7 @@
 <?php if(Configs::get('host')): ?>
     <li>
         <i class='fa fa-server icon-server'></i>
-        <a href='<?php echo Params::without('database')->without('table')->toString(); ?>'>
+        <a href='<?php echo Params::without('database', 'table', 'order')->toString(); ?>'>
             <?php echo Configs::get('host'); ?>
         </a>
     </li>
@@ -20,7 +20,7 @@
     </li>
     <li>
         <i class='fa fa-database icon-database'></i>
-        <a href='<?php echo Params::without('table')->toString(); ?>'>
+        <a href='<?php echo Params::without('table', 'order')->toString(); ?>'>
             <?php echo Params::get('database'); ?>
         </a>
     </li>
@@ -35,7 +35,7 @@
     </li>
     <li>
         <i class='fa fa-table icon-table'></i>
-        <a href='<?php echo Params::without('route')->toString(); ?>'>
+        <a href='<?php echo Params::without('route', 'order')->toString(); ?>'>
             <?php echo Params::get('table'); ?>
         </a>
     </li>

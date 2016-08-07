@@ -9,14 +9,15 @@
 <body>
     <div id='left'>
         <a href='/' id='logo'>pdb</a>
-        <?php View::show('left', $schema); ?>
+        <?php View::render('left', $schema); ?>
     </div>
     <div id='right'>
-        <?php View::show('breadcrumbs'); ?>
-        <?php View::show('tabs'); ?>
-        <?php View::show(Route::get(), array('schema' => $schema)); ?>
+        <?php View::render('breadcrumbs'); ?>
+        <?php View::render('tabs'); ?>
+        <?php View::render(Route::get(), array('schema' => $schema)); ?>
     </div>
     <script src='/assets/js/jquery.min.js'></script>
     <script src='/assets/js/selectable.js'></script>
+    <script src='/assets/js/confirm.js'></script>
 </body>
 </html>

@@ -14,9 +14,11 @@ $tabs = array(
         'icon'          => 'pencil-square-o'
     ),
     'search'        => array(
+        'hide'          => ! Params::get('table'),
         'icon'          => 'search'
     ),
     'insert'        => array(
+        'hide'          => ! Params::get('table'),
         'icon'          => 'terminal'
     ),
     'export'        => array(
@@ -34,11 +36,19 @@ $tabs = array(
     'empty'         => array(
         'hide'          => ! Params::get('table'),
         'class'         => 'danger',
-        'icon'          => 'trash'
+        'icon'          => 'trash',
+        'attrs'         => array(
+            'confirm'       => 'Are you sure you want to:\nTRUNCATE TABLE `'.Params::get('table').'` ?'
+        )
     ),
     'drop'          => array(
         'class'         => 'danger',
-        'icon'          => 'times'
+        'icon'          => 'times',
+        'attrs'         => array(
+            'confirm'       => Params::get('table')
+                ? 'Are you sure you want to:\nDROP TABLE `'.Params::get('table').'` ?'
+                : 'You are about to DESTROY a complete database!\n\nAre you sure you want to:\nDROP DATABASE `'.Params::get('database').'` ?'
+        )
     )
 );
 
@@ -74,14 +84,30 @@ if(isset($tabs[$route])){
         <a href='/'><i class='fa fa-2x fa-home icon'></i></a>
     </li>
 -->
-    <?php foreach($tabs as $route => $options): ?>
-    <li class='tab<?php if(! empty($options['class'])): ?> <?php echo $options['class']; ?><?php endif; ?>'>
-        <a href='<?php echo Params::with('route', $route)->toString(); ?>'>
+<?php foreach($tabs as $route => $options): ?>
+
+    <?php
+
+    $href = Params::with('route', $route)->toString();
+    $class = ! empty($options['class'])
+        ? 'tab '.$options['class']
+        : 'tab';
+
+    $attrs = '';
+    if(! empty($options['attrs'])){
+        foreach($options['attrs'] as $attr => $value){
+            $attrs .= ' '.$attr.'="'.$value.'"';
+        }
+    }
+    ?>
+
+    <li class='<?php echo $class; ?>'>
+        <a href='<?php echo $href; ?>'<?php echo $attrs; ?>>
             <?php if(! empty($options['icon'])): ?>
             <i class='fa fa-<?php echo $options['icon']; ?> icon'></i>
             <?php endif; ?>
             <?php echo empty($options['name']) ? ucwords($route) : $options['name']; ?>
         </a>
     </li>
-    <?php endforeach; ?>
+<?php endforeach; ?>
 </ul>

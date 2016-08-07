@@ -5,41 +5,36 @@ class Params
     private static $params = array();
     private static $instance = null;
 
-    public static function get($name = null){
+    public static function get($key = null){
         self::boot();
-        if(empty($name)){
+        if(empty($key)){
             return self::$params;
         }
 
-        if(empty(self::$params[$name])){
+        if(empty(self::$params[$key])){
             return false;
         }
 
-        return self::$params[$name];
+        return self::$params[$key];
     }
 
-    public static function push($name, $value){
+    public static function push($key, $value){
         self::boot();
-        self::$params[$name] = $value;
+        self::$params[$key] = $value;
     }
 
-    public static function with($name, $value){
+    public static function with($key, $value){
         self::boot();
-        self::$params[$name] = $value;
+        self::$params[$key] = $value;
         return self::$instance;
     }
 
-    public static function without($name){
+    public static function without(){
         self::boot();
-        unset(self::$params[$name]);
-        return self::$instance;
-    }
-
-    private static function boot(){
-        self::process_query_string();
-        if(! self::$instance){
-            self::$instance = new self;
+        foreach(func_get_args() as $key){
+            unset(self::$params[$key]);
         }
+        return self::$instance;
     }
 
     public static function toString($params = null){
@@ -47,22 +42,34 @@ class Params
             $params = self::$params;
         }
 
-        // resets the param array from prior calls to with() / without()
+        // reset the param array from prior calls to with() / without()
         // so that the next chain starts with just those in $_GET
-        self::$params = array();
+        self::reset();
 
         if(empty($params)){
-            return false;
+            return '/';
         }
 
         $params = self::sort($params);
         $output = array();
 
-        array_walk($params, function($value, $name) use(& $output){
-            $output[] = $name .'='. $value;
+        array_walk($params, function($value, $key) use(& $output){
+            $output[] = $key .'='. $value;
         });
 
-        return '?'.implode('&', $output);
+        return '/?'.implode('&', $output);
+    }
+
+    private static function reset(){
+        self::$params = array();
+        self::process_query_string();
+    }
+
+    private static function boot(){
+        if(! self::$instance){
+            self::process_query_string();
+            self::$instance = new self;
+        }
     }
 
     private static function process_query_string(){

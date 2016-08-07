@@ -1,30 +1,5 @@
-<!-- Show selected database and its tables -->
-<?php if(! empty($database)): ?>
-    <div class='database selected'>
-        <a href='<?php echo Params::with('database', $database)->without('table')->toString(); ?>'>
-            <span class='name'><?php echo $database; ?></span>
-            <?php if(! empty($tables)): ?>
-            <span class='count'>(<?php echo count($tables); ?>)</span>
-            <?php endif; ?>
-        </a>
-    </div>
-    <?php if(! empty($tables)): ?>
-    <ul class='tables'>
-        <?php foreach($tables as $table): ?>
-        <li class='table'>
-            <a href='<?php echo Params::with('table', $table['name'])->toString(); ?>'>
-                <?php echo $table['name']; ?>
-            </a>
-        </li>
-        <?php endforeach; ?>
-    </ul>
-    <?php endif; ?>
-<?php endif; ?>
-
-
-
 <!-- List all databases -->
-<?php if(! empty($databases)): ?>
+<?php if(empty($database)): ?>
 <ul>
     <?php foreach($databases as $database): ?>
     <li class='database'>
@@ -34,4 +9,31 @@
     </li>
     <?php endforeach; ?>
 </ul>
+
+
+
+
+
+
+<!-- Show selected database and its tables -->
+<?php else: ?>
+<div class='database selected'>
+    <a href='<?php echo Params::with('database', $database)->without('table', 'order')->toString(); ?>'>
+        <span class='name'><?php echo $database; ?></span>
+        <?php if(! empty($tables)): ?>
+        <span class='count'>(<?php echo count($tables); ?>)</span>
+        <?php endif; ?>
+    </a>
+    <?php if(! empty($tables)): ?>
+    <ul class='tables'>
+        <?php foreach($tables as $table): ?>
+        <li class='table'>
+            <a href='<?php echo Params::with('table', $table['name'])->without('route', 'order')->toString(); ?>'>
+                <?php echo $table['name']; ?>
+            </a>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php endif; ?>
+</div>
 <?php endif; ?>

@@ -2,7 +2,7 @@
 
 class View
 {
-    public static function show($view, $data = array()){
+    public static function render($view, $data = array()){
         $path = BASEPATH.'views/'.$view.'.php';
         if(! file_exists($path)){
             return false;

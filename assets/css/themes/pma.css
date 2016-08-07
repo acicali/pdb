@@ -1,0 +1,136 @@
+a,
+.link {
+    cursor: pointer;
+    color: #00F;
+    text-decoration: none;
+}
+
+a:hover,
+.link:hover {
+    color: #F00;
+    text-decoration: underline;
+}
+
+#logo {
+    background: rgba(0, 0, 0, .1);
+}
+
+#left {
+    background: #D0DCE0;
+    border-right: 5px solid #FFF;
+}
+
+#left .database.selected {
+    padding-left: 10px;
+}
+
+#right {
+    background: #F5F5F5;
+}
+
+.database .name {
+    color: #00F;
+    font-weight: bold;
+}
+
+th {
+    background: #D3DCE3;
+}
+
+td {
+    background: #E5E5E5;
+}
+
+th a {
+    color: #00F;
+}
+
+tr:nth-child(odd) td {
+    background: #D5D5D5;
+}
+
+tr.selectable:hover td {
+    background: #CFC;
+}
+
+tr.selected td {
+    background: #FC9;
+}
+
+#breadcrumbs .icon-breadcrumb-arrow {
+    color: #CCD;
+}
+
+#breadcrumbs {
+    font-weight: bold;
+}
+
+#tabs {
+    margin-top: 7px;
+}
+
+#tabs li {
+    position: relative;
+    padding-right: 4px;
+    border-bottom: 1px solid #000;
+}
+
+#tabs li.active {
+    border-bottom: transparent;
+}
+
+#tabs li.active::after {
+    position: absolute;
+    right: 0;
+    width: 4px;
+    content: '';
+    border-bottom: 1px solid #000;
+}
+
+#tabs a {
+    display: block;
+    margin-top: 3px;
+    padding: 3px 7px;
+    color: #00F;
+    font-weight: bold;
+    text-decoration: none;
+    background: #E5E5E5;
+    border: 1px solid #D5D5D5;
+    border-bottom: 0;
+    border-top-left-radius: .4em;
+    border-top-right-radius: .4em;
+}
+
+#tabs .home a {
+    margin-top: -7px;
+}
+
+#tabs a:hover {
+    margin-top: 0;
+    padding-bottom: 6px;
+    color: #F00;
+}
+
+#tabs .home a:hover {
+    margin-top: -7px;
+    padding-bottom: 3px;
+}
+
+#tabs li.danger a {
+    color: #F00;
+}
+
+#tabs li.active a {
+    margin-top: 0;
+    padding-bottom: 6px;
+    background: #F5F5F5;
+}
+
+#tabs .icon {
+    color: #888;
+}
+
+#tabs a:hover .icon,
+#tabs li.active .icon {
+    color: #555;
+}

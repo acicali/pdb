@@ -1,0 +1,138 @@
+* {
+    box-sizing: border-box;
+}
+
+*::before, *::after {
+    box-sizing: inherit;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: auto;
+    font-size: .8em;
+    font-family: arial, freesans, sans-serif;
+    overflow: hidden;
+}
+
+#logo {
+    display: block;
+    margin-bottom: 10px;
+    padding: 5px 8px;
+    font-size: 1.6em;
+    font-weight: bold;
+}
+
+#left {
+    float: left;
+    width: 260px;
+    height: 100%;
+    padding-bottom: 60px;
+    color: #000;
+    overflow: auto;
+}
+
+#left ul {
+    padding: 0 0 0 1.2em;
+    margin: 0 10px;
+}
+
+#left a {
+    color: #000;
+    text-decoration: none;
+}
+
+#left a:hover {
+    background: rgba(255, 255, 255, .2);
+}
+
+#right {
+    height: 100%;
+    padding: 10px;
+    margin-left: 260px;
+    overflow: auto;
+}
+
+table {
+    margin-bottom: 30px;
+}
+
+th, td {
+    padding: .15em .5em;
+}
+
+th a {
+    text-decoration: none;
+}
+
+tr.transparent,
+tr.transparent td,
+tr.transparent th {
+    background: transparent !important;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+[class*=icon-] {
+    cursor: pointer;
+    color: #789;
+}
+
+.icon-edit {
+    color: #039;
+}
+
+.icon-delete {
+    color: #D11;
+}
+
+.icon-index {
+    color: #FF9;
+    text-shadow: 0 0 1px #330;
+}
+
+.icon-fulltext {
+    color: #FFF;
+    text-shadow: 0 0 1px rgba(0, 0, 0, .4);
+}
+
+#breadcrumbs {
+    float: left;
+    width: 100%;
+    padding: 0;
+    margin: 0 0 5px;
+    list-style-type: none;
+}
+
+#breadcrumbs li {
+    float: left;
+    margin: 0 5px;
+    padding: 0;
+}
+
+#breadcrumbs a {
+    padding-left: 5px;
+}
+
+#tabs {
+    float: left;
+    width: 100%;
+    margin: 0 0 2px;
+    padding: 0;
+    list-style-type: none;
+}
+
+#tabs li {
+    float: left;
+    padding: 0;
+    margin: 0;
+}
+
+#tabs a {
+    padding: .2em .5em;
+}

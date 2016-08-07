@@ -1,23 +1,19 @@
 <?php
 
-class Connection
+class Connection extends Singleton
 {
     private static $connection = null;
 
-    private final function __construct(){}
-
     public static function connect(){
-        if(! self::$connection){
-            $driver = Configs::get('driver');
-            $host   = Configs::get('host');
-            $user   = Configs::get('user');
-            $pass   = Configs::get('pass');
-
-            if(! self::$connection = $driver::connect($host, $user, $pass)){
-                throw new Exception('Could not connect with supplied credentials');
-            }
+        if(self::$connection){
+            return self::$connection;
         }
 
-        return self::$connection;
+        self::$connection =
+            Driver::connect(
+                Configs::get('host'),
+                Configs::get('user'),
+                Configs::get('pass')
+            );
     }
 }

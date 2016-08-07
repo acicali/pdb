@@ -1,6 +1,6 @@
 <?php
 
-define('BASEPATH', dirname(__FILE__).'/');
+// TODO: implement caching
 
 function __autoload($class){
     $dirs = array(

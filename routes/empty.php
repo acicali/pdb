@@ -12,7 +12,7 @@ if($table = Params::get('table')){
 }
 
 $uri = Params
-    ::without('route')
+    ::with('route', 'structure')
     ->toString();
 
 Route::redirect($uri);

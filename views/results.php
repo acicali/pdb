@@ -1,5 +1,5 @@
 <?php if(! empty($results)): ?>
-<table>
+<table class='striped'>
     <?php if(! empty($columns)): ?>
     <tr class='columns'>
         <th colspan='3'></th>

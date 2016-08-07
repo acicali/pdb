@@ -32,6 +32,8 @@ class Route
     }
 
     private static function getDefault(){
-        return 'structure';
+//        return 'structure';
+// TODO: determine if this should even exist
+        return false;
     }
 }

@@ -26,7 +26,7 @@
     <ul class='tables'>
         <?php foreach($database->tables() as $table): ?>
         <li class='table'>
-            <a href='<?php echo Params::with('table', $table->name)->without('route', 'order')->toString(); ?>'>
+            <a href='<?php echo Params::with('table', $table->name)->with('route', 'browse')->without('order')->toString(); ?>'>
                 <?php echo $table->name; ?>
             </a>
         </li>

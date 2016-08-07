@@ -1,12 +1,12 @@
 <?php
 
-class mysql
+class Mysql
 {
-    public function connect($host, $user, $pass){
-        return $this->connection = mysql_connect($host, $user, $pass);
+    public static function connect($host, $user, $pass){
+        return mysql_connect($host, $user, $pass);
     }
 
-    public function databases(){
+    public static function databases(){
         $databases = array();
 
         $results = mysql_query(
@@ -20,7 +20,7 @@ class mysql
         return $databases;
     }
 
-    public function tables($database){
+    public static function tables($database){
         $tables = array();
 
         $results = mysql_query(
@@ -41,7 +41,7 @@ class mysql
         return $tables;
     }
 
-    public function columns($database, $table){
+    public static function columns($database, $table){
         $columns = array();
 
         $results = mysql_query(
@@ -54,8 +54,8 @@ class mysql
                 `extra`,
                 `column_key` AS `key`
                 FROM `information_schema`.`columns`
-                WHERE `table_schema` = "'.$this->escape($database).'"
-                    AND `table_name` = "'.$this->escape($table).'"
+                WHERE `table_schema` = "'.self::escape($database).'"
+                    AND `table_name` = "'.self::escape($table).'"
                 ORDER BY `ordinal_position`'
         );
 
@@ -76,7 +76,7 @@ class mysql
         return $columns;
     }
 
-    public function rows($database = null, $table = null, $order = null, $limit = null){
+    public static function rows($database = null, $table = null, $order = null, $limit = null){
         $rows = array();
 
         if(empty($database)){
@@ -87,11 +87,12 @@ class mysql
             return false;
         }
 
-        $query = 'SELECT *
-            FROM `'.$this->escape($database).'`.`'.$this->escape($table).'`';
+        $query =
+            'SELECT *
+                FROM `'.self::escape($database).'`.`'.self::escape($table).'`';
 
         if(! empty($order)){
-            $query .= ' ORDER BY `'.$this->escape($order).'`';
+            $query .= ' ORDER BY `'.self::escape($order).'`';
         }
 
         $results = mysql_query($query);
@@ -103,15 +104,16 @@ class mysql
         return $rows;
     }
 
-    public function execute($database, $query){
+    public static function query($query = null){
+        return mysql_query($query);
 
     }
 
-    public function count($database, $query){
+    public static function count($database, $query){
 
     }
 
-    public function escape($param){
+    public static function escape($param){
         return mysql_real_escape_string($param);
     }
 }

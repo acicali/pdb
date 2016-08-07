@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-    <title>pdb / <?php echo $host; ?><?php if(! empty($schema['database'])): ?> / <?php echo $schema['database']; ?><?php endif; ?></title>
+    <title>pdb / <?php echo Configs::get('host'); ?><?php if(! empty($schema['database'])): ?> / <?php echo $schema['database']; ?><?php endif; ?></title>
     <link rel='stylesheet' type='text/css' href='/assets/css/styles.css'/>
-    <?php if(! empty($theme)): ?><link rel='stylesheet' type='text/css' href='/assets/css/themes/<?php echo $theme; ?>.css'/><?php endif; ?>
+    <link rel='stylesheet' type='text/css' href='/assets/css/themes/<?php echo Configs::get('theme') ? Configs::get('theme') : 'default' ?>.css'/>
     <link rel='stylesheet' type='text/css' href='/assets/css/font-awesome.min.css'/>
 </head>
 <body>

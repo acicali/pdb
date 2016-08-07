@@ -7,7 +7,10 @@ class Pdb
 
     public function __construct($configs = null){
 
+        Connection::connect();
+
         $this->getInstance($configs);
+        Route::run();
         $params = Params::get();
         $this->schema['databases'] = $this->__databases($configs);
 
@@ -15,27 +18,12 @@ class Pdb
         array_walk($params, array($this, 'processGetVar'));
 
         $this->view['schema'] = $this->schema;
-        $this->view['host'] = $configs['host'];
 
         View::render('index', $this->view);
     }
 
     private function getInstance($configs){
         $this->instance = new $configs['driver']();
-        $this->connection = $this->instance->connect(
-            $configs['host'],
-            $configs['user'],
-            $configs['pass']
-        );
-        if(! $this->connection){
-            throw new Exception('Could not connect to database');
-        }
-
-        if(empty($configs['theme'])){
-            $configs['theme'] = 'default';
-        }
-
-        $this->view['theme'] = $configs['theme'];
     }
 
     private function processGetVar($value, $key){

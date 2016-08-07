@@ -2,12 +2,22 @@
 
 class Configs
 {
-    public static function get($name = null){
-        $configs = self::custom();
+    private static $configsArray = array();
 
-        if(empty($configs)){
-            $configs = self::auto();
+    public static function push($configs){
+        self::$configsArray[] = $configs;
+    }
+
+    public static function get($name = null){
+        if(empty(self::$configsArray)){
+            self::auto();
         }
+
+        if(empty(self::$configsArray)){
+            throw new Exception('No valid configs could be found or determined');
+        }
+
+        $configs = self::$configsArray[0];
 
         if(empty($name)){
             return $configs;
@@ -20,21 +30,21 @@ class Configs
         return $configs[$name];
     }
 
-    private static function custom(){
-        $configs = array();
-
-        if(file_exists(BASEPATH.'config.php')){
-            require BASEPATH.'config.php';
-        }
-
-        if(! self::valid($configs)){
-            return false;
-        }
-
-        return $configs;
+    public static function all(){
+        return self::$configsArray;
     }
 
     private static function auto(){
+        self::$configsArray[] = array(
+            'host'  => 'localhost',
+            'hide'  => array(
+                'mysql',
+                'information_schema'
+            ),
+            'driver'    => 'mysql',
+            'theme'     => 'pma'
+        );
+
         // TODO: check for running database servers and auto generate configs
     }
 

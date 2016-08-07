@@ -2,6 +2,28 @@
 
 class Mysql
 {
+    public static function server_available($server = null){
+        if(empty($server)){
+            return false;
+        }
+
+        if(! extension_loaded('mysql')){
+            return false;
+        }
+
+        @mysql_connect($server);
+        $error = error_get_last();
+        if($error AND ! stripos($error['message'], 'using password')){
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function name(){
+        return 'MySQL';
+    }
+
     public static function connect($host, $user, $pass){
         return mysql_connect($host, $user, $pass);
     }

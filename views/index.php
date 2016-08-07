@@ -7,12 +7,14 @@
     <link rel='stylesheet' type='text/css' href='/assets/css/font-awesome.min.css'/>
 </head>
 <body>
+    <?php if(! View::positionEmpty('left')): ?>
     <div id='left'>
         <a href='/' id='logo'>pdb</a>
         <?php View::position('left'); ?>
     </div>
-    <div id='right'>
-        <?php View::position('right'); ?>
+    <?php endif; ?>
+    <div id='main'>
+        <?php View::position('main'); ?>
     </div>
     <script src='/assets/js/jquery.min.js'></script>
     <script src='/assets/js/selectable.js'></script>

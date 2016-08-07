@@ -26,18 +26,9 @@ class Route
         }
     }
 
-    // public static function redirect($route = null){
-    //     $path = BASEPATH.'routes/'.$route.'.php';
-    //     if(! file_exists($path)){
-    //         throw new Exception('Cannot redirect to non-existent route "'.$route.'"');
-    //     }
-    //     header('Location: '.Params::with('route', $route)->toString());
-    //     die();
-    // }
-
     public static function redirect($uri){
         header('Location: '.$uri);
-        die();
+        exit();
     }
 
     private static function getDefault(){

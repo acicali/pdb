@@ -10,6 +10,6 @@ if($databaseName = Params::get('database')){
             'columns'   => $table->columns()
         ))
         ->render('structure')
-        ->into('right');
+        ->into('main');
     }
 }

@@ -11,4 +11,4 @@ if(! empty($_POST['query'])){
 }
 
 View::render('query')
-    ->into('right');
+    ->into('main');

@@ -15,6 +15,6 @@ if($databaseName = Params::get('database')){
             )
         ))
         ->render('results')
-        ->into('right');
+        ->into('main');
     }
 }

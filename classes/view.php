@@ -13,7 +13,7 @@ class View extends Singleton
         return self::instance();
     }
 
-    public static function output($view = null){
+    public static function send($view = null){
         echo self::getRenderedView($view);
         self::reset();
     }
@@ -40,10 +40,14 @@ class View extends Singleton
     }
 
     public static function position($name = null){
-        if(empty($name) OR empty(self::$renderedInto[$name])){
-            return false;
+        if(! self::positionEmpty($name)){
+            echo implode('', self::$renderedInto[$name]);
         }
-        echo implode('', self::$renderedInto[$name]);
+    }
+
+    public static function positionEmpty($name = null){
+        return empty($name)
+            OR empty(self::$renderedInto[$name]);
     }
 
     private static function reset(){

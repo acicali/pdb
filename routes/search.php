@@ -10,6 +10,6 @@ if($databaseName = Params::get('database')){
             'columns'   => $table->columns()
         ))
         ->render('search')
-        ->into('right');
+        ->into('main');
     }
 }

@@ -2,13 +2,12 @@
 
 class Singleton
 {
-    private static $instance = false;
-    private function __construct(){}
+    protected static $instance = false;
 
     public static function instance(){
-        if(! self::$instance){
-            self::$instance = new static;
+        if(! static::$instance){
+            static::$instance = new static;
         }
-        return self::$instance;
+        return static::$instance;
     }
 }

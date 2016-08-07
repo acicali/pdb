@@ -49,11 +49,23 @@ body {
     background: rgba(255, 255, 255, .2);
 }
 
-#right {
+#main {
     height: 100%;
     padding: 10px;
-    margin-left: 260px;
     overflow: auto;
+}
+
+#left + #main {
+    margin-left: 260px;
+}
+
+#login {
+    width: 400px;
+    margin: auto;
+}
+
+#login .heading {
+    text-align: center;
 }
 
 table {

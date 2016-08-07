@@ -1,1 +1,1 @@
-<?php View::render(Params::get('route'))->into('right'); ?>
+<?php View::render(Params::get('route'))->into('main'); ?>

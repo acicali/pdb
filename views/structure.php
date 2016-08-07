@@ -1,4 +1,4 @@
-<?php if(! empty($schema['columns'])): ?>
+<?php if(! empty($columns)): ?>
 <table>
     <tr>
         <th></th>
@@ -11,7 +11,7 @@
         <th>Extra</th>
         <th colspan='7'>Actions</th>
     </tr>
-    <?php foreach($schema['columns'] as $column): ?>
+    <?php foreach($columns as $column): ?>
     <tr class='column selectable'>
         <td><input type='checkbox'/></td>
         <td class='bold'><?php echo $column['field']; ?></td>

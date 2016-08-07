@@ -1,16 +1,16 @@
-<?php if(! empty($schema['results'])): ?>
+<?php if(! empty($results)): ?>
 <table>
-    <?php if(! empty($schema['columns'])): ?>
+    <?php if(! empty($columns)): ?>
     <tr class='columns'>
         <th colspan='3'></th>
-        <?php foreach($schema['columns'] as $column): ?>
+        <?php foreach($columns as $column): ?>
         <th>
             <a href='<?php echo Params::with('order', $column['field'])->toString(); ?>'><?php echo $column['field']; ?></a>
         </th>
         <?php endforeach; ?>
     </tr>
 <?php endif; ?>
-    <?php foreach($schema['results'] as $row): ?>
+    <?php foreach($results as $row): ?>
     <tr class='selectable'>
         <td><input type='checkbox'/></td>
         <td><i class='fa fa-pencil icon-edit'></i></td>

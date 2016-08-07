@@ -2,8 +2,9 @@ $('body')
     .on('click', '.selectable', function(e){
         var $selectable = $(this);
         var $checkbox = $selectable.find('input').filter(':checkbox');
+        var $clicked = $(e.target);
 
-        if(! $checkbox.is(e.target)){
+        if(! ($clicked.is($checkbox) || $clicked.is('.no-select'))){
             $checkbox.trigger('click');
         }
 

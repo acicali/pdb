@@ -145,12 +145,19 @@ tr.selected td {
     color: #555;
 }
 
-#query fieldset {
+fieldset {
     background: #E5E5E5;
     border: 1px solid #000;
 }
 
-#query legend {
+legend {
     color: #444;
     font-weight: bold;
+}
+
+#search {
+    clear: both;
+    padding: 16px;
+    background: #E5E5E5;
+    border: 1px solid #000;
 }

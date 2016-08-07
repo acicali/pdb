@@ -1,6 +1,6 @@
 <?php
 
-class Database
+class Database extends Cacheable
 {
     public function __construct($name = null){
         if(empty($name)){
@@ -11,27 +11,26 @@ class Database
         $this->name = $name;
     }
 
+    public function tables(){
+        $self = $this;
+        return $this->fromCache('tables', function() use($self){
+            return array_map(function($table) use($self){
+                return new Table($self, $table['name']);
+            }, Driver::get_tables($self->name));
+        });
+    }
+
     public function table($requestedTable = null){
-        // fetch the tables if it hasn't already happened
-        if(! isset($this->tables)){
-            $tables = Driver::tables($this->name);
-            foreach($tables as $table){
-                $this->tables[$table['name']] = new Table($this, $table['name']);
+        foreach($this->tables() as $table){
+            if($table->name == $requestedTable){
+                return $table;
             }
         }
 
-        // return the requested table if exists
-        if(isset($this->tables[$requestedTable])){
-            return $this->tables[$requestedTable];
-        }
-
-        // requested table does not exist
         return false;
     }
 
     public function drop(){
-        return Driver::query(
-            'DROP DATABASE `'.$this->name.'`'
-        );
+        return Driver::drop_database($this->name);
     }
 }

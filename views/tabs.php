@@ -1,9 +1,8 @@
 <?php
 
 $tabs = array(
-    'results'        => array(
+    'browse'        => array(
         'hide'          => ! Params::get('table'),
-        'name'          => 'Browse',
         'icon'          => 'list'
     ),
     'structure'     => array(

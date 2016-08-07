@@ -11,4 +11,5 @@
         </fieldset>
     </form>
 </div>
-<h1>this doesn't work yet</h1>
+
+<h1><?php echo ucwords(Route::get()); ?> not yet implemented</h1>

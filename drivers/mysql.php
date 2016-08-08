@@ -98,7 +98,13 @@ class Mysql
         return $columns;
     }
 
-    public static function get_rows($database = null, $table = null, $order = null, $limit = null){
+    public static function get_rows(
+        $database = null,
+        $table = null,
+        $order = null,
+        $reverse = null,
+        $limit = null
+    ){
         $rows = array();
 
         if(empty($database)){
@@ -115,6 +121,13 @@ class Mysql
 
         if(! empty($order)){
             $query .= ' ORDER BY `'.self::escape($order).'`';
+            if($reverse){
+                $query .= ' DESC';
+            }
+        }
+
+        if(! empty($limit)){
+            $query .= ' LIMIT '.$limit;
         }
 
         $results = mysql_query($query);

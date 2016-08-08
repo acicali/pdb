@@ -5,7 +5,9 @@
         <th colspan='3'></th>
         <?php foreach($columns as $column): ?>
         <th>
-            <a href='<?php echo Params::with('order', $column['field'])->toString(); ?>'><?php echo $column['field']; ?></a>
+            <a href='<?php echo Params::with('order', $column['field'])->with('reverse', Params::get('reverse') == 'false' ? 'true' : 'false')->toString(); ?>'>
+                <?php echo $column['field']; ?>
+            </a>
         </th>
         <?php endforeach; ?>
     </tr>

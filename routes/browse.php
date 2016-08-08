@@ -7,12 +7,13 @@ if($databaseName = Params::get('database')){
         $results = Driver::get_rows(
             $database->name,
             $table->name,
-            Params::get('order')
+            Params::get('order'),
+            Params::get('reverse') == 'true'
         );
         if(empty($results)){
             Route::redirect(
                 Params::with('route', 'structure')
-                    ->without('order')
+                    ->without('order', 'reverse')
                     ->toString()
             );
         }

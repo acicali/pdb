@@ -83,7 +83,8 @@ class Params
             'route',
             'database',
             'table',
-            'order'
+            'order',
+            'reverse'
         );
 
         $sorted = array();

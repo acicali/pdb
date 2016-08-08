@@ -18,7 +18,7 @@
 <!-- Show selected database and its tables -->
 <?php else: ?>
 <div class='database selected'>
-    <a href='<?php echo Params::with('database', $database->name)->without('table', 'order')->toString(); ?>'>
+    <a href='<?php echo Params::with('database', $database->name)->without('table', 'order', 'reverse')->toString(); ?>'>
         <span class='name'><?php echo $database->name; ?></span>
         <span class='count'>(<?php echo count($database->tables()); ?>)</span>
     </a>

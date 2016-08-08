@@ -2,10 +2,9 @@
     <?php if(empty($database) OR empty($columns)): ?>
     <div class='error'>No database and table selected</div>
     <?php else :?>
-    <form action='<?php echo Params::toString(); ?>' method='post'>
         <fieldset>
             <legend>Do a "query by example" (wildcard: "%")</legend>
-            <table>
+            <table class='striped'>
                 <tr>
                     <th colspan='6' style='text-align: left;'>SELECT <span id='selected-fields'>*</span></th>
                 </tr>
@@ -47,9 +46,17 @@
             <?php endforeach; ?>
             </table>
         </fieldset>
-        <input type='submit' value='Go'/>
-    </form>
+        <?php
+        $action =
+            Params::only('database', 'table')
+                ->with('route', 'query')
+                ->toString();
+        ?>
+        <form action='<?php echo $action; ?>' method='post'>
+            <input type='hidden' name='query' id='query' from='<?php echo Params::get('table'); ?>'/>
+            <input type='submit' value='Go'/>
+        </form>
     <?php endif; ?>
 </div>
 
-<h1><?php echo ucwords(Route::get()); ?> not yet implemented</h1>
+<h1>Clauses not yet implemented</h1>

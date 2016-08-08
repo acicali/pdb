@@ -1,7 +1,8 @@
 <?php
 
 $tabs = array(
-    'browse'        => array(
+    'results'        => array(
+        'name'          => 'Browse',
         'hide'          => ! Params::get('table'),
         'icon'          => 'list'
     ),
@@ -87,7 +88,10 @@ if(isset($tabs[$route])){
 
     <?php
 
-    $href = Params::with('route', $route)->toString();
+    $href = Params::with('route', $route)
+                ->without('order', 'reverse', 'query')
+                ->toString();
+
     $class = ! empty($options['class'])
         ? 'tab '.$options['class']
         : 'tab';

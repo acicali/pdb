@@ -148,3 +148,9 @@ tr.transparent th {
     width: 100%;
     min-height: 200px;
 }
+
+table .actions {
+    position: absolute;
+    top: 0;
+    width: 500px;
+}

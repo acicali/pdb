@@ -23,6 +23,18 @@ class Params
         self::$params[$key] = $value;
     }
 
+    public static function only(){
+        self::boot();
+        $params = array();
+        foreach(func_get_args() as $key){
+            if(isset(self::$params[$key])){
+                $params[$key] = self::$params[$key];
+            }
+        }
+        self::$params = $params;
+        return self::$instance;
+    }
+
     public static function with($key, $value){
         self::boot();
         self::$params[$key] = $value;
@@ -35,6 +47,14 @@ class Params
             unset(self::$params[$key]);
         }
         return self::$instance;
+    }
+
+    public static function encode($string){
+        return strtr(base64_encode($string), '+/=', '-_~');
+    }
+
+    public static function decode($string){
+        return base64_decode(strtr($string, '-_~', '+/='));
     }
 
     public static function toString($params = null){
@@ -50,7 +70,7 @@ class Params
             return '/';
         }
 
-        $params = self::sort($params);
+        $params = self::cleanse($params);
         $output = array();
 
         array_walk($params, function($value, $key) use(& $output){
@@ -78,13 +98,14 @@ class Params
         );
     }
 
-    private static function sort($params = array()){
+    private static function cleanse($params = array()){
         $keys = array(
             'route',
             'database',
             'table',
             'order',
-            'reverse'
+            'reverse',
+            'query'
         );
 
         $sorted = array();

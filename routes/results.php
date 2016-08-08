@@ -1,8 +1,19 @@
 <?php
 
 if($databaseName = Params::get('database')){
-    if($tableName = Params::get('table')){
-        $database = new Database($databaseName);
+    $database = new Database($databaseName);
+    if($query = Params::get('query')){
+        $query = Params::decode($query);
+        $results = Driver::query($query);
+        View::inject(array(
+            'database'  => $database,
+            'query'     => $query,
+            'results'   => $results
+        ))
+        ->render('results')
+        ->into('main');
+    }
+    else if($tableName = Params::get('table')){
         $table = $database->table($tableName);
         $results = Driver::get_rows(
             $database->name,
@@ -20,7 +31,6 @@ if($databaseName = Params::get('database')){
         View::inject(array(
             'database'  => $database,
             'table'     => $table,
-            'columns'   => $table->columns(),
             'results'   => $results
         ))
         ->render('results')

@@ -28,6 +28,13 @@ class Mysql
         return mysql_connect($host, $user, $pass);
     }
 
+    public static function select_database($database = null){
+        if(empty($database)){
+            return false;
+        }
+        return mysql_select_db($database);
+    }
+
     public static function get_databases(){
         $databases = array();
 
@@ -140,8 +147,15 @@ class Mysql
     }
 
     public static function query($query = null){
-        return mysql_query($query);
-
+        $rows = array();
+        $results = mysql_query($query);
+        if(! $results){
+            return false;
+        }
+        while($row = mysql_fetch_assoc($results)){
+            $rows[] = $row;
+        }
+        return $rows;
     }
 
     public static function drop_database($database = null){

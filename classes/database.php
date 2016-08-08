@@ -8,6 +8,7 @@ class Database extends Cacheable
         }
 
         Connection::connect();
+        Driver::select_database($name);
         $this->name = $name;
     }
 

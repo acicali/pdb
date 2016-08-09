@@ -18,15 +18,28 @@
 <!-- Show selected database and its tables -->
 <?php else: ?>
 <div class='database selected'>
-    <a href='<?php echo Params::with('database', $database->name)->without('table', 'order', 'reverse')->toString(); ?>'>
+    <?php
+        $href = Params
+            ::only('database')
+            ->with('database', $database->name)
+            ->toString();
+    ?>
+    <a href='<?php echo $href; ?>'>
         <span class='name'><?php echo $database->name; ?></span>
         <span class='count'>(<?php echo count($database->tables()); ?>)</span>
     </a>
     <?php if(count($database->tables())): ?>
     <ul class='tables'>
         <?php foreach($database->tables() as $table): ?>
+        <?php
+            $href = Params
+                ::only('database')
+                ->with('table', $table->name)
+                ->with('route', 'results')
+                ->toString();
+        ?>
         <li class='table'>
-            <a href='<?php echo Params::with('table', $table->name)->with('route', 'results')->without('order')->toString(); ?>'>
+            <a href='<?php echo $href; ?>'>
                 <?php echo $table->name; ?>
             </a>
         </li>

@@ -3,7 +3,7 @@ var query = {
         from: $('[from]').attr('from'),
         where: []
 };
-var $query = $('#query');
+var $query = $('#query').val(renderQuery());
 var $selected = $('#selected-fields')
 var $search = $('#search')
     .on('change', ':checkbox', function(){

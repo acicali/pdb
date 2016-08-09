@@ -154,3 +154,60 @@ table .actions {
     top: 0;
     width: 500px;
 }
+
+#query-viewer {
+    clear: both;
+    width: 100%;
+    max-height: 100px;
+    overflow: auto;
+    padding: 10px;
+    background: #E5E5E5;
+    border: 1px solid #000;
+}
+
+.syntax-highlighted-query {
+    margin: 0;
+}
+
+.syntax-highlighted-query .punctuation {
+    color: #F0F;
+}
+
+.syntax-highlighted-query .quote {
+    color: #F00;
+}
+
+.syntax-highlighted-query .backtick-quote {
+    color: #008000;
+}
+
+.syntax-highlighted-query .reserved {
+    color: #909;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.syntax-highlighted-query .number {
+    color: #F00;
+}
+
+.syntax-highlighted-query .word {
+    color: #008000;
+}
+
+.syntax-highlighted-query .word::before,
+.syntax-highlighted-query .word::after {
+    content: '`';
+}
+
+.syntax-highlighted-query .error {
+    color: #F00;
+}
+
+.syntax-highlighted-query .comment {
+    color: #F00;
+}
+
+.syntax-highlighted-query .variable {
+    color: #F00;
+}

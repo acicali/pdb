@@ -1,3 +1,6 @@
+<?php if(! empty($query)): ?>
+<div id='query-viewer'><?php echo $query; ?></div>
+<?php endif; ?>
 <?php if(! empty($results)): ?>
 <table class='striped'>
 <?php foreach($results as $index => $row): ?>

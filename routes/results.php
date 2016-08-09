@@ -5,6 +5,7 @@ if($databaseName = Params::get('database')){
     if($query = Params::get('query')){
         $query = Params::decode($query);
         $results = Driver::query($query);
+        $query = SqlFormatter::format($query);
         View::inject(array(
             'database'  => $database,
             'query'     => $query,

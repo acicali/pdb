@@ -57,11 +57,13 @@ th a {
     background: #D5D5D5;
 }
 
-tr.selectable:hover td {
+tr.selectable:hover td,
+.striped tr.selectable:hover td {
     background: #CFC;
 }
 
-tr.selected td {
+tr.selected td,
+.striped tr.selected td {
     background: #FC9;
 }
 
@@ -161,11 +163,4 @@ fieldset {
 legend {
     color: #444;
     font-weight: bold;
-}
-
-#search {
-    clear: both;
-    padding: 16px;
-    background: #E5E5E5;
-    border: 1px solid #000;
 }

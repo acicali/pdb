@@ -2,9 +2,9 @@
 
 // TODO: clean up
 
-define('BASEPATH', dirname(__FILE__).'/');
+define('BASEPATH', dirname(__FILE__).'/../app/');
 
-require 'autoload.php';
+require BASEPATH.'autoload.php';
 
 if(file_exists(BASEPATH.'config.php')){
     require BASEPATH.'config.php';

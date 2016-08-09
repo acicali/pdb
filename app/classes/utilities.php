@@ -11,4 +11,12 @@ class Utilities
         }
         return $values;
     }
+
+    public static function encrypt($key = null, $string = null){
+        return openssl_encrypt($string, 'AES-256-CTR', 'salty-d0g'.$key);
+    }
+
+    public static function decrypt($key = null, $string = null){
+        return openssl_decrypt($string, 'AES-256-CTR', 'salty-d0g'.$key);
+    }
 }

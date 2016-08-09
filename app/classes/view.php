@@ -8,7 +8,7 @@ class View extends Singleton
 
     public static function inject($data = array()){
         if(is_array($data)){
-            self::$data[] = $data;
+            self::$data = array_merge(self::$data, $data);
         }
         return self::instance();
     }
@@ -39,9 +39,9 @@ class View extends Singleton
         return self::instance();
     }
 
-    public static function position($name = null){
-        if(! self::positionEmpty($name)){
-            echo implode('', self::$renderedInto[$name]);
+    public static function position($position = null){
+        if(! self::positionEmpty($position)){
+            echo implode('', self::$renderedInto[$position]);
         }
     }
 
@@ -50,21 +50,25 @@ class View extends Singleton
             OR empty(self::$renderedInto[$name]);
     }
 
+    public static function exists($view = null){
+        return file_exists(self::path($view));
+    }
+
+    private static function path($view = null){
+        return BASEPATH.'views/'.$view.'.php';;
+    }
+
     private static function reset(){
-        self::$data = array();
         self::$rendered = array();
     }
 
-    private static function getRenderedView($view){
-        $path = BASEPATH.'views/'.$view.'.php';
-        if(! file_exists($path)){
+    private static function getRenderedView($name = null){
+        if(! self::exists($name)){
             return false;
         }
-        foreach(self::$data as $data){
-            extract($data);
-        }
+        extract(self::$data);
         ob_start();
-        require $path;
+        require self::path($name);
         return ob_get_clean();
     }
 }

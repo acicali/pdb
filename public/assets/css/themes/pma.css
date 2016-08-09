@@ -155,12 +155,26 @@ tr.selected td,
     color: #555;
 }
 
+#insert {
+    float: left;
+    clear: both;
+}
+
 fieldset {
     background: #E5E5E5;
     border: 1px solid #000;
 }
 
+fieldset.footer {
+    background: #D3DCE3;
+    border-top: none;
+}
+
 legend {
     color: #444;
     font-weight: bold;
+}
+
+input[type=submit] {
+    float: right;
 }

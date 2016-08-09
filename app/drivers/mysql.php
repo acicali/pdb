@@ -24,8 +24,17 @@ class Mysql
         return 'MySQL';
     }
 
-    public static function connect($host, $user, $pass){
-        return mysql_connect($host, $user, $pass);
+    public static function connect($configs){
+        if(empty($configs['host'])
+            OR empty($configs['user'])
+                OR empty($configs['pass'])){
+            throw new Exception('Cannot connect with empty host');
+        }
+        return mysql_connect(
+            $configs['host'],
+            $configs['user'],
+            $configs['pass']
+        );
     }
 
     public static function select_database($database = null){

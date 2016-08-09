@@ -7,9 +7,7 @@ class Database extends Cacheable
             throw new Exception('Database name must not be null');
         }
 
-        Connection::connect();
-        Driver::select_database($name);
-        $this->name = $name;
+        Driver::select_database($this->name = $name);
     }
 
     public function tables(){

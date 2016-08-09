@@ -1,5 +1,5 @@
 <div id='search'>
-    <?php if(empty($database) OR empty($columns)): ?>
+    <?php if(empty($database) OR empty($table)): ?>
     <div class='error'>No database and table selected</div>
     <?php else :?>
     <?php
@@ -21,7 +21,7 @@
                     <th>JOIN</th>
                     <th>ON</th>
                 </tr>
-            <?php foreach($columns as $column): ?>
+            <?php foreach($table->columns() as $column): ?>
                 <tr class='selectable searchable-column'>
                     <td><input type='checkbox' name='select[]' value='<?php echo $column['field']; ?>'/></td>
                     <td class='bold'><?php echo $column['field']; ?></td>
@@ -86,16 +86,19 @@
                 </tr>
             <?php endforeach; ?>
                 <tr>
-                    <td colspan='8'>
+                    <td colspan='7'>
                         <textarea name='query' id='query' from='<?php echo Params::get('table'); ?>'></textarea>
                     </td>
                 </tr>
             </table>
         </fieldset>
-        <input type='submit' value='Go'/>
+        <fieldset class='footer'>
+            <input type='submit' value='Go'/>
+        </fieldset>
     </form>
     <?php endif; ?>
 </div>
+<!--
 <div class='venn-diagram'>
     <div class='circle left-circle'></div>
     <div class='circle right-circle'>
@@ -137,3 +140,4 @@
     margin-left: -66.6666666%;
 }
 </style>
+-->

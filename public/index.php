@@ -3,34 +3,62 @@
 // TODO: clean up
 
 define('BASEPATH', dirname(__FILE__).'/../app/');
-
 require BASEPATH.'autoload.php';
-
 if(file_exists(BASEPATH.'config.php')){
     require BASEPATH.'config.php';
 }
 
+
+
+
+// if the configs contain a user, they
+// came from config.php, connect away
 if(Configs::get('user')){
-    Connection::connect(
-        Configs::get('host'),
-        Configs::get('user'),
-        Configs::get('pass')
+    Connection::connect(Configs::get());
+}
+// otherwise if the configs have a matching cookie,
+// decrypt it and we should have working credentials
+else if($key = md5(json_encode(Configs::get())) AND ! empty($_COOKIE[$key])){
+    $decrypted = Utilities::decrypt($key, $_COOKIE[$key]);
+    $configs = json_decode($decrypted, true);
+    // TODO: if the cookie is somehow changed and does
+    // not produce credentials, we should unset it
+    Connection::connect($configs);
+}
+// if no credentials were found from the above methods,
+// display the login screen so the user can supply them
+else {
+    Route::run('login');
+}
+
+
+
+
+if(Connection::connected()){
+    // get a list of databases
+    $databases = array_filter(
+        Driver::get_databases(),
+        function($database){
+            $hide = Configs::get('hide');
+            return ! (is_array($hide) AND in_array($database, $hide));
+        }
     );
 
-    $viewData = array(
-        'databases' => array_filter(
-            Driver::get_databases(),
-            function($database){
-                $hide = Configs::get('hide');
-                return ! (is_array($hide) AND in_array($database, $hide));
-            }
-        ),
-        'database' => Params::get('database')
-            ? new Database(Params::get('database'))
-            : false
-    );
+    // get the selected database or NULL
+    $database = Params::get('database')
+        ? new Database(Params::get('database'))
+        : null;
 
-    View::inject($viewData)
+    // get the selected table or NULL
+    $table = ($database AND Params::get('table'))
+        ? $database->table(Params::get('table'))
+        : null;
+
+    View::inject(array(
+            'databases' => $databases,
+            'database'  => $database,
+            'table'     => $table
+        ))
         ->render('databases')
         ->into('left')
         ->render('breadcrumbs', 'tabs')
@@ -38,47 +66,8 @@ if(Configs::get('user')){
 
     Route::run();
 }
-else {
-    $configsHashed = md5(json_encode(Configs::get()));
-    if(empty($_COOKIE[$configsHashed])){
-        Route::run('login');
-    }
-    else {
-        $configs = $_COOKIE[$configsHashed];
-        $decrypted = openssl_decrypt(
-            $configs,
-            'AES-256-CTR',
-            $configsHashed
-        );
-        $configs = json_decode($decrypted, true);
 
-        Connection::connect(
-            $configs['host'],
-            $configs['user'],
-            $configs['pass']
-        );
 
-        $viewData = array(
-            'databases' => array_filter(
-                Driver::get_databases(),
-                function($database){
-                    $hide = Configs::get('hide');
-                    return ! (is_array($hide) AND in_array($database, $hide));
-                }
-            ),
-            'database' => Params::get('database')
-                ? new Database(Params::get('database'))
-                : false
-        );
 
-        View::inject($viewData)
-            ->render('databases')
-            ->into('left')
-            ->render('breadcrumbs', 'tabs')
-            ->into('main');
-
-        Route::run();
-    }
-}
 
 View::send('index');

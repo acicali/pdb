@@ -30,6 +30,7 @@ class Mysql
                 OR empty($configs['pass'])){
             throw new Exception('Cannot connect with empty host');
         }
+
         return mysql_connect(
             $configs['host'],
             $configs['user'],
@@ -165,6 +166,10 @@ class Mysql
             $rows[] = $row;
         }
         return $rows;
+    }
+
+    public static function execute($query = null){
+        return mysql_query($query);
     }
 
     public static function drop_database($database = null){

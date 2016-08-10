@@ -49,14 +49,6 @@ class Params
         return self::$instance;
     }
 
-    public static function encode($string){
-        return strtr(base64_encode($string), '+/=', '-_~');
-    }
-
-    public static function decode($string){
-        return base64_decode(strtr($string, '-_~', '+/='));
-    }
-
     public static function toString($params = null){
         if(empty($params)){
             $params = self::$params;

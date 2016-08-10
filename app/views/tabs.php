@@ -1,7 +1,7 @@
 <?php
 
 $tabs = array(
-    'results'        => array(
+    'browse'        => array(
         'name'          => 'Browse',
         'hide'          => ! Params::get('table'),
         'icon'          => 'list'

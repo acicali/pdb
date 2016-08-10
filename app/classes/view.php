@@ -1,10 +1,22 @@
 <?php
 
-class View extends Singleton
+class View
 {
     private static $data = array();
     private static $rendered = array();
     private static $renderedInto = array();
+    private static $instance = false;
+
+    final protected function __construct(){}
+	final protected function __clone(){}
+	final protected function __wakeup(){}
+
+    public static function instance(){
+        if(! static::$instance){
+            static::$instance = new static;
+        }
+        return static::$instance;
+    }
 
     public static function inject($data = array()){
         if(is_array($data)){

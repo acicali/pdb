@@ -12,6 +12,14 @@ class Utilities
         return $values;
     }
 
+    public static function encode($string){
+        return strtr(base64_encode($string), '+/=', '-_~');
+    }
+
+    public static function decode($string){
+        return base64_decode(strtr($string, '-_~', '+/='));
+    }
+
     public static function encrypt($key = null, $string = null){
         return openssl_encrypt($string, 'AES-256-CTR', 'salty-d0g'.$key);
     }

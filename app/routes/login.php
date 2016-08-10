@@ -27,7 +27,7 @@ $configs = array_merge($configs, $credentials);
 
 // if the supplied credentials worked,
 // save them in a cookie for this session
-if(Driver::connect($configs)){
+if(Connection::connect($configs)){
     $encrypted = Utilities::encrypt($key, json_encode($configs));
     Cookie::set($key, $encrypted);
 }

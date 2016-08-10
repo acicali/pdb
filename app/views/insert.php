@@ -9,6 +9,7 @@
             ->toString();
     ?>
     <form action='<?php echo $action; ?>' method='post'>
+        <?php for($i = 0; $i < 1; $i++): ?>
         <fieldset>
             <table class='striped'>
                 <tr>
@@ -23,7 +24,7 @@
                     <td class='bold'><?php echo $column['field']; ?></td>
                     <td><?php echo $column['type']; ?></td>
                     <td>
-                        <select name='function[]'>
+                        <select name='rows[<?php echo $i; ?>][<?php echo $column['field']; ?>][function]'>
                             <option></option>
                             <optgroup label='Date / Time Functions'>
                                 <option>CURDATE</option>
@@ -105,7 +106,7 @@
                     </td>
                     <td>
                         <input
-                            name='fields[<?php echo $column['field']; ?>]'
+                            name='rows[<?php echo $i; ?>][<?php echo $column['field']; ?>][value]'
                             autocomplete='off'/>
                     </td>
                 </tr>
@@ -115,6 +116,7 @@
         <fieldset class='footer'>
             <input type='submit' value='Go'/>
         </fieldset>
+    <?php endfor; ?>
     </form>
     <?php endif; ?>
 </div>

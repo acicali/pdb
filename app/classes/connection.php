@@ -1,16 +1,15 @@
 <?php
 
-class Connection extends Singleton
+class Connection
 {
     private static $connection = null;
 
-    public static function connect($host = null, $user = null, $pass = null){
+    public static function connect($configs){
         if(self::$connection){
             return self::$connection;
         }
 
-        self::$connection =
-            Driver::connect($host, $user, $pass);
+        return self::$connection = Driver::connect($configs);
     }
 
     public static function connected(){

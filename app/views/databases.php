@@ -35,7 +35,7 @@
             $href = Params
                 ::only('database')
                 ->with('table', $table->name)
-                ->with('route', 'results')
+                ->with('route', 'browse')
                 ->toString();
         ?>
         <li class='table'>

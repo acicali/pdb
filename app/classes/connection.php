@@ -12,6 +12,10 @@ class Connection
         return self::$connection = Driver::connect($configs);
     }
 
+    public function get(){
+        return self::$connection;
+    }
+
     public static function connected(){
         return (bool)self::$connection;
     }

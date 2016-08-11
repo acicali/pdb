@@ -3,7 +3,7 @@
 // TODO: clean up
 
 define('BASEPATH', __DIR__.'/../app/');
-require __DIR__.'/../vendor/autoload.php';
+require BASEPATH.'autoload.php';
 if(file_exists(BASEPATH.'config.php')){
     require BASEPATH.'config.php';
 }

@@ -1,30 +1,35 @@
+<script>var results = <?php echo json_encode($results); ?>;</script>
 <?php if(! empty($query)): ?>
 <div id='query-viewer'><?php echo $query; ?></div>
 <?php endif; ?>
 <?php if(! empty($results)): ?>
-<table class='striped'>
+<table class='striped' virtual-render>
 <?php foreach($results as $index => $row): ?>
     <?php if(! $index): ?>
-    <tr class='columns'>
-        <th colspan='3'></th>
-        <?php foreach(array_keys($row) as $column): ?>
-        <th>
-            <a href='<?php echo Params::with('order', $column)->with('reverse', Params::get('reverse') == 'false' ? 'true' : 'false')->toString(); ?>'>
-                <?php echo $column; ?>
-            </a>
-        </th>
-        <?php endforeach; ?>
-    </tr>
+    <thead>
+        <tr class='columns'>
+            <th colspan='3'></th>
+            <?php foreach(array_keys($row) as $column): ?>
+            <th>
+                <a href='<?php echo Params::with('order', $column)->with('reverse', Params::get('reverse') == 'false' ? 'true' : 'false')->toString(); ?>'>
+                    <?php echo $column; ?>
+                </a>
+            </th>
+            <?php endforeach; ?>
+        </tr>
+    </thead>
+    <tbody>
     <?php endif; ?>
-    <tr class='selectable'>
-        <td><input type='checkbox'/></td>
-        <td><i class='fa fa-pencil icon-edit'></i></td>
-        <td><i class='fa fa-times icon-delete'></i></td>
-        <?php foreach($row as $value): ?>
-        <td><?php echo $value; ?></td>
-        <?php endforeach; ?>
-    </tr>
+        <tr class='selectable'>
+            <td><input type='checkbox'/></td>
+            <td><i class='fa fa-pencil icon-edit'></i></td>
+            <td><i class='fa fa-times icon-delete'></i></td>
+            <?php foreach($row as $value): ?>
+            <td><?php echo $value; ?></td>
+            <?php endforeach; ?>
+        </tr>
 <?php endforeach; ?>
+    </tbody>
     <tr class='transparent'>
         <td style='text-align: center;'><i class='fa fa-level-up fa-flip-horizontal'></i></td>
         <td style='padding: 0; position: relative;'>

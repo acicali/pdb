@@ -1,19 +1,19 @@
 <?php
 
-class Postgres
+class PostgreSQL
 {
     public static function server_available($server = null){
         if(empty($server)){
             return false;
         }
 
-        if(! extension_loaded('mysql')){
+        if(! extension_loaded('pgsql')){
             return false;
         }
 
-        @mysql_connect($server);
+        @pg_connect('host='.$server);
         $error = error_get_last();
-        if($error AND ! stripos($error['message'], 'using password')){
+        if($error AND ! stripos($error['message'], 'password')){
             return false;
         }
 
@@ -21,7 +21,7 @@ class Postgres
     }
 
     public static function name(){
-        return 'Postgres';
+        return __CLASS__;
     }
 
     public static function connect($configs){
@@ -31,6 +31,7 @@ class Postgres
             throw new Exception('Cannot connect with empty host');
         }
 
+        // TODO: cannot run drop_database() with the dbname specified below.
         return pg_connect(
             'host='.$configs['host']
             .' user='.$configs['user']
@@ -46,9 +47,11 @@ class Postgres
     public static function get_databases(){
         $databases = array();
 
-        $results = pg_query(Connection::get(),
-            'SELECT *
-                FROM pg_database'
+        $results = pg_query(
+            "SELECT *
+                FROM pg_database
+                WHERE datallowconn = 't'
+                ORDER BY datname"
         );
 
         while($row = pg_fetch_row($results)){
@@ -63,9 +66,11 @@ class Postgres
 
         $results = pg_query(
             "SELECT
-                table_name AS name
-                FROM information_schema.tables
-                WHERE table_catalog = '".$database."'"
+                tablename AS name
+                FROM pg_catalog.pg_tables
+                WHERE schemaname != 'pg_catalog'
+                    AND schemaname != 'information_schema'
+                ORDER BY name"
         );
 
         while($row = pg_fetch_assoc($results)){
@@ -78,6 +83,7 @@ class Postgres
     public static function get_columns($database, $table){
         $columns = array();
 
+        // TODO: determine what information would be most useful to display
         $results = pg_query(
             "SELECT
                 column_name AS field,
@@ -85,34 +91,34 @@ class Postgres
                 is_nullable AS null,
                 column_default AS default
                 FROM information_schema.columns
-                WHERE table_name = '".$table."'"
+                WHERE table_name = '".self::escape($table)."'"
         );
 
         // $results = mysql_query(
         //     'SELECT
-        //         `column_name` AS `field`,
-        //         `collation_name` AS `collation`,
-        //         `column_type` AS `attributes`,
-        //         `is_nullable` AS `null`,
-        //         `column_default` AS `default`,
-        //         `extra`,
-        //         `column_key` AS `key`
-        //         FROM `information_schema`.`columns`
-        //         WHERE `table_schema` = "'.self::escape($database).'"
-        //             AND `table_name` = "'.self::escape($table).'"
-        //         ORDER BY `ordinal_position`'
+        //         column_name AS field,
+        //         collation_name AS collation,
+        //         column_type AS attributes,
+        //         is_nullable AS null,
+        //         column_default AS default,
+        //         extra,
+        //         column_key AS key
+        //         FROM information_schema.columns
+        //         WHERE table_schema = "'.self::escape($database).'"
+        //             AND table_name = "'.self::escape($table).'"
+        //         ORDER BY ordinal_position'
         // );
 
         while($row = pg_fetch_assoc($results)){
-            // get the type from `column_type` instead of
-            // `data_type` because it also includes the length
-            $attributes = explode(' ', $row['attributes']);
-            $row['type'] = array_shift($attributes);
-            $row['attributes'] = implode(' ', $attributes);
-
-            $row['null'] = strtolower($row['null']) === 'yes';
-            $row['attributes'] = strtoupper($row['attributes']);
-            $row['extra'] = strtoupper($row['extra']);
+            // get the type from column_type instead of
+            // data_type because it also includes the length
+            // $attributes = explode(' ', $row['attributes']);
+            // $row['type'] = array_shift($attributes);
+            // $row['attributes'] = implode(' ', $attributes);
+            //
+            // $row['null'] = strtolower($row['null']) === 'yes';
+            // $row['attributes'] = strtoupper($row['attributes']);
+            // $row['extra'] = strtoupper($row['extra']);
 
             $columns[] = $row;
         }
@@ -125,7 +131,7 @@ class Postgres
         $table = null,
         $order = null,
         $reverse = null,
-        $limit = null
+        $limit = 30
     ){
         $rows = array();
 
@@ -139,22 +145,21 @@ class Postgres
 
         $query =
             'SELECT *
-                FROM `'.self::escape($database).'`.`'.self::escape($table).'`';
+                FROM '.self::escape($table);
 
         if(! empty($order)){
-            $query .= ' ORDER BY `'.self::escape($order).'`';
+            $query .= ' ORDER BY '.self::escape($order);
             if($reverse){
                 $query .= ' DESC';
             }
         }
 
         if(! empty($limit)){
-            $query .= ' LIMIT '.$limit;
+            $query .= ' LIMIT '.(int)$limit;
         }
 
-        $results = mysql_query($query);
-
-        while($row = mysql_fetch_assoc($results)){
+        $results = pg_query($query);
+        while($row = pg_fetch_assoc($results)){
             $rows[] = $row;
         }
 
@@ -163,26 +168,25 @@ class Postgres
 
     public static function query($query = null){
         $rows = array();
-        $results = mysql_query($query);
-        if(! $results){
+        if(! $results = pg_query($query)){
             return false;
         }
-        while($row = mysql_fetch_assoc($results)){
+        while($row = pg_fetch_assoc($results)){
             $rows[] = $row;
         }
         return $rows;
     }
 
     public static function execute($query = null){
-        return mysql_query($query);
+        return pg_query($query);
     }
 
     public static function drop_database($database = null){
         if(empty($database)){
             return false;
         }
-        return mysql_query(
-            'DROP DATABASE `'.$database.'`'
+        return pg_query(
+            'DROP DATABASE '.self::escape($database)
         );
     }
 
@@ -190,18 +194,14 @@ class Postgres
         if(empty($database) OR empty($table)){
             return false;
         }
-        return mysql_query(
-            'DROP TABLE `'.$database.'`.`'.$table.'`'
-        );
+        return pg_query('DROP TABLE '.self::escape($table));
     }
 
     public static function truncate_table($database = null, $table = null){
         if(empty($database) OR empty($table)){
             return false;
         }
-        return mysql_query(
-            'TRUNCATE TABLE `'.$database.'`.`'.$table.'`'
-        );
+        return pg_query('TRUNCATE TABLE '.self::escape($table));
     }
 
     public static function count($database, $query){
@@ -209,7 +209,7 @@ class Postgres
     }
 
     public static function escape($param){
-        return mysql_real_escape_string($param);
+        return $param;
     }
 
     public static function highlight($sql_raw = null){

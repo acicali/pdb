@@ -1,6 +1,6 @@
 <?php
 
-class Mysql
+class MySQL
 {
     public static function server_available($server = null){
         if(empty($server)){
@@ -21,7 +21,7 @@ class Mysql
     }
 
     public static function name(){
-        return 'MySQL';
+        return __CLASS__;
     }
 
     public static function connect($configs){
@@ -70,7 +70,8 @@ class Mysql
                 `table_collation` AS `collation`,
                 `table_comment` AS `comments`
                 FROM `information_schema`.`tables`
-                WHERE `table_schema` = "'.$database.'"'
+                WHERE `table_schema` = "'.self::escape($database).'"
+                ORDER BY `name`'
         );
 
         while($row = mysql_fetch_assoc($results)){
@@ -90,13 +91,23 @@ class Mysql
                 `column_type` AS `attributes`,
                 `is_nullable` AS `null`,
                 `column_default` AS `default`,
-                `extra`,
-                `column_key` AS `key`
+                `extra`/*,
+                `column_key` AS `key` */
                 FROM `information_schema`.`columns`
                 WHERE `table_schema` = "'.self::escape($database).'"
                     AND `table_name` = "'.self::escape($table).'"
                 ORDER BY `ordinal_position`'
         );
+
+        $key_order = array_flip(array(
+            'field',
+            'type',
+            'collation',
+            'attributes',
+            'null',
+            'default',
+            'extra'
+        ));
 
         while($row = mysql_fetch_assoc($results)){
             // get the type from `column_type` instead of
@@ -106,10 +117,20 @@ class Mysql
             $row['attributes'] = implode(' ', $attributes);
 
             $row['null'] = strtolower($row['null']) === 'yes';
-            $row['attributes'] = strtoupper($row['attributes']);
+            $row['attributes'] = '<small>'.strtoupper($row['attributes']).'</small>';
             $row['extra'] = strtoupper($row['extra']);
 
-            $columns[] = $row;
+            if(is_null($row['default'])){
+                $row['default'] = $row['null']
+                    ? '<em>NULL</em>'
+                    : '<em>None</em>';
+            }
+
+            $row['null'] = $row['null']
+                ? 'Yes'
+                : 'No';
+
+            $columns[] = array_merge($key_order, $row);
         }
 
         return $columns;
@@ -120,7 +141,7 @@ class Mysql
         $table = null,
         $order = null,
         $reverse = null,
-        $limit = null
+        $limit = 30
     ){
         $rows = array();
 
@@ -144,7 +165,7 @@ class Mysql
         }
 
         if(! empty($limit)){
-            $query .= ' LIMIT '.$limit;
+            $query .= ' LIMIT '.(int)$limit;
         }
 
         $results = mysql_query($query);
@@ -158,8 +179,7 @@ class Mysql
 
     public static function query($query = null){
         $rows = array();
-        $results = mysql_query($query);
-        if(! $results){
+        if(! $results = mysql_query($query)){
             return false;
         }
         while($row = mysql_fetch_assoc($results)){
@@ -177,7 +197,7 @@ class Mysql
             return false;
         }
         return mysql_query(
-            'DROP DATABASE `'.$database.'`'
+            'DROP DATABASE `'.self::escape($database).'`'
         );
     }
 
@@ -186,7 +206,7 @@ class Mysql
             return false;
         }
         return mysql_query(
-            'DROP TABLE `'.$database.'`.`'.$table.'`'
+            'DROP TABLE `'.self::escape($database).'`.`'.self::escape($table).'`'
         );
     }
 
@@ -195,7 +215,7 @@ class Mysql
             return false;
         }
         return mysql_query(
-            'TRUNCATE TABLE `'.$database.'`.`'.$table.'`'
+            'TRUNCATE TABLE `'.self::escape($database).'`.`'.self::escape($table).'`'
         );
     }
 

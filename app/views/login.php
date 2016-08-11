@@ -8,7 +8,7 @@
             <table>
                 <tr>
                     <td class='bold'>Username:</td>
-                    <td><input type='text' name='user' autofocus/></td>
+                    <td><input type='text' name='user' autofocus autocomplete='off'/></td>
                 </tr>
                 <tr>
                     <td class='bold'>Password:</td>

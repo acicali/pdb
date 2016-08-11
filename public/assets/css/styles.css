@@ -15,7 +15,7 @@ body {
     margin: auto;
     font-size: .8em;
     font-family: arial, freesans, sans-serif;
-    overflow: hidden;
+    overflow-y: hidden;
 }
 
 #logo {
@@ -52,7 +52,7 @@ body {
 #main {
     height: 100%;
     padding: 10px;
-    overflow: auto;
+    overflow-y: hidden;
 }
 
 #left + #main {
@@ -214,4 +214,33 @@ table .actions {
 
 .syntax-highlighted-query .variable {
     color: #F00;
+}
+
+table.fixed {
+    table-layout: fixed;
+    height: 80%;
+    overflow-y: hidden;
+}
+
+table.fixed thead {
+    display: block;
+}
+
+table.fixed th {
+    position: relative;
+}
+
+table.fixed th::after {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    content: '';
+    border-bottom: 2px solid #F5F5F5;
+}
+
+table.fixed tbody {
+    display: block;
+    max-height: 100%;
+    overflow: auto;
 }

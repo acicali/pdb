@@ -1,0 +1,165 @@
+.grid {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	height: 100%;
+	font-size: .8em;
+	overflow: hidden;
+	background: #FFF;
+}
+
+.grid .grid-table,
+.grid .grid-buffer {
+	cursor: pointer;
+	position: relative;
+	display: table;
+	float: left;
+	width: 100%;
+	color: #444;
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+
+.grid .grid-headings {
+	width: 100%;
+	height: 60px;
+	line-height: 58px;
+	color: #000;
+	background: #FFF;
+	border: 1px solid #DDD;
+	border-bottom: none;
+}
+
+.grid .grid-headings::selection {
+	background: transparent;
+}
+
+.grid .grid-heading {
+	cursor: default;
+	float: left;
+	padding: 0 15px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+.grid .grid-heading .icon {
+	color: rgba(0, 0, 0, 0.3);
+}
+
+.grid .grid-heading.sorted .icon,
+.grid .grid-heading.reverse-sorted .icon {
+	color: rgba(0, 0, 0, 0.8);
+}
+
+.grid .grid-heading[sort]:hover {
+	background: rgba(0, 0, 0, 0.1);
+}
+
+.grid .grid-heading::selection {
+	background: transparent;
+}
+
+.grid .grid-heading .label::selection {
+	background: transparent;
+}
+
+.grid .grid-heading[sort] .label {
+	margin-right: .5em;
+}
+
+.grid .grid-heading[sort] .sort-asc {
+	display: inline;
+}
+
+.grid .grid-heading[sort] .sort-asc,
+.grid .grid-heading.reverse-sorted .sort-desc {
+	display: inline;
+}
+
+.grid .grid-heading .sort-asc,
+.grid .grid-heading .sort-desc,
+.grid .grid-heading.reverse-sorted .sort-asc {
+	display: none;
+}
+
+.grid .grid-heading.select {
+	position: relative;
+	border-right: 1px solid #EEE;
+}
+
+.grid .grid-heading.select::after {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	content: '';
+	border-left: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.grid row {
+	display: table-row;
+}
+
+.grid row:nth-child(even) {
+	background: #F9F9F9;
+}
+
+.grid .reverse-stripes row:nth-child(even) {
+	background: transparent;
+}
+
+.grid .reverse-stripes row:nth-child(odd) {
+	background: #F9F9F9;
+}
+
+.grid row:hover,
+.grid .reverse-stripes row:hover {
+	background: #FF9;
+}
+
+.grid row:hover column,
+.grid .reverse-stripes row:hover column {
+	border-color: #EE7;
+}
+
+.grid .no-vpad {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.grid column {
+	display: table-cell;
+	padding: 15px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	border-bottom: 1px solid #f6f6f6;
+}
+
+.grid .grid-buffer {
+	position: absolute;
+}
+
+.grid .grid-buffer:first-child {
+	bottom: 100%;
+}
+
+.grid .grid-buffer:last-child {
+	top: 100%;
+}
+
+.grid .scroll-height {
+	position: relative;
+	float: right;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	overflow-y: scroll;
+	border: 1px solid #DDD;
+}
+
+.grid .scrollable {
+	float: right;
+}

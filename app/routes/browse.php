@@ -10,13 +10,7 @@ if(! Params::get('table')){
     );
 }
 
-$results = Driver::get_rows(
-    $database->name,
-    $table->name,
-    Params::get('order'),
-    Params::get('reverse') == 'true'
-);
-
+$results = $table->rows(Params::get());
 if(empty($results)){
     Route::redirect(
         Params::with('route', 'structure')

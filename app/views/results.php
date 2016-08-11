@@ -1,9 +1,11 @@
-<script>var results = <?php echo json_encode($results); ?>;</script>
 <?php if(! empty($query)): ?>
 <div id='query-viewer'><?php echo $query; ?></div>
 <?php endif; ?>
 <?php if(! empty($results)): ?>
-<table class='striped' virtual-render>
+<table class='striped'
+    virtual-render
+    payload='<?php //echo json_encode($results); ?>'
+    total-rows='<?php echo $table->count(); ?>'>
 <?php foreach($results as $index => $row): ?>
     <?php if(! $index): ?>
     <thead>
@@ -28,8 +30,13 @@
             <td><?php echo $value; ?></td>
             <?php endforeach; ?>
         </tr>
+    <?php if($index > 100): ?>
+        <?php break; ?>
+    <?php endif; ?>
 <?php endforeach; ?>
     </tbody>
+</table>
+<table>
     <tr class='transparent'>
         <td style='text-align: center;'><i class='fa fa-level-up fa-flip-horizontal'></i></td>
         <td style='padding: 0; position: relative;'>

@@ -1,0 +1,11 @@
+{
+    "require": {
+        "mustache/mustache": "v2.11.1"
+    },
+    "autoload": {
+        "classmap": [
+            "app/classes/",
+            "app/routes"
+        ]
+    }
+}

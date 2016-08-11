@@ -3,31 +3,10 @@
 // TODO: clean up
 
 define('BASEPATH', __DIR__.'/../app/');
-require BASEPATH.'autoload.php';
+require BASEPATH.'../vendor/autoload.php';
 if(file_exists(BASEPATH.'config.php')){
     require BASEPATH.'config.php';
 }
-
-
-
-
-
-//CONNECT TO AND FETCH DATABASE NAMES FROM POSTGRES
-// $connection = \Doctrine\DBAL\DriverManager::getConnection(
-//     array(
-//         'driver'    => 'pdo_pgsql',
-//         'user'      => 'postgres',
-//         'password'  => 'okcomp',
-// //        'dbname'    => 'testing',
-// //        'host'      => 'localhost',
-// //        'port'      => '5432',
-// //        'charset'   => 'utf8'
-//     ),
-//     new \Doctrine\DBAL\Configuration()
-// );
-// $schema = $connection->getSchemaManager();
-// $databases = $schema->listDatabases();
-// die(var_dump($databases));
 
 
 

@@ -136,7 +136,7 @@ class MySQL
         return $columns;
     }
 
-    public static function get_rows(
+    public static function get_rows2(
         $database = null,
         $table = null,
         $order = null,
@@ -169,12 +169,25 @@ class MySQL
         }
 
         $results = mysql_query($query);
-
         while($row = mysql_fetch_assoc($results)){
             $rows[] = $row;
         }
 
         return $rows;
+    }
+
+    public static function get_row_count(){
+        return
+            'SELECT COUNT(*) AS `count`
+                FROM `{{database}}`.`{{table}}`';
+    }
+
+    public static function get_rows(){
+        return
+            'SELECT *
+                FROM `{{database}}`.`{{table}}`
+                {{#order}}ORDER BY `{{order}}`{{#reverse}} DESC{{/reverse}}{{/order}}
+                {{#limit}}LIMIT {{limit}}{{/limit}}';
     }
 
     public static function query($query = null){

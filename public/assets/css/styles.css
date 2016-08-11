@@ -217,13 +217,16 @@ table .actions {
 }
 
 table.fixed {
-    table-layout: fixed;
-    height: 80%;
-    overflow-y: hidden;
+    clear: both;
+    position: relative;
+    display: block;
+    height: 60%;
+    overflow: hidden;
 }
 
 table.fixed thead {
     display: block;
+    position: absolute;
 }
 
 table.fixed th {
@@ -241,6 +244,9 @@ table.fixed th::after {
 
 table.fixed tbody {
     display: block;
-    max-height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
     overflow: auto;
+    padding-bottom: 100px;
 }

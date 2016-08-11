@@ -45,6 +45,15 @@ class Configs
             'theme'     => 'pma'
         );
 
+        // self::$configsArray[] = array(
+        //     'host'  => 'localhost',
+        //     'hide'  => array(
+        //         'template1'
+        //     ),
+        //     'driver'    => 'postgresql',
+        //     'theme'     => 'pma'
+        // );
+
         // TODO: check for running database servers and auto generate configs
     }
 
